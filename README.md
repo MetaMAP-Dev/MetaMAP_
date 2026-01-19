@@ -4,6 +4,8 @@
 
 # Run and deploy your AI Studio app
 
+[**Live Demo**](https://karadagi.github.io/MetaMAP_/)
+
 This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/drive/17QQNxbVLe1HL7EhXOQOWI7PlGQvVlSyQ
