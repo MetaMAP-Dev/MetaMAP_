@@ -1,0 +1,5 @@
+{
+  "name": "MetaMAP for Rhino / Grasshopper",
+  "description": "The official interactive landing page for MetaMAP, a free and open-source tool for bringing building and terrain data directly into Rhino/Grasshopper from OpenStreetMap and Global Building Atlas.",
+  "requestFramePermissions": []
+}
