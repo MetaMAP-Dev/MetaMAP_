@@ -69,7 +69,7 @@ export const Workflow: React.FC = () => {
             <div className="relative w-full h-full flex flex-col items-center justify-center space-y-8">
               {activeStep === 0 && (
                 <div className="text-center animate-in fade-in zoom-in duration-500 relative w-full h-full flex flex-col items-center justify-center">
-                  <div className="absolute inset-4 z-0 opacity-80">
+                  <div className="absolute inset-4 z-0 opacity-60">
                     <img src={import.meta.env.BASE_URL + "fetch.png"} alt="Background" className="w-full h-full object-cover blur-sm rounded-3xl" />
                   </div>
                   <div className="w-40 h-40 rounded-full border-4 border-dashed border-emerald-200 flex items-center justify-center mb-8 bg-white shadow-xl relative z-10">

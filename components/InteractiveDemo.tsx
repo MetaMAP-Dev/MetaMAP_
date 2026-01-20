@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Grid, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -12,8 +12,7 @@ const Building = ({ position, args, color }: { position: [number, number, number
       position={position}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
-      castShadow
-      receiveShadow
+
     >
       <boxGeometry args={args} />
       <meshStandardMaterial
@@ -31,11 +30,41 @@ const Building = ({ position, args, color }: { position: [number, number, number
 
 const OSMModel = () => {
   const { scene } = useGLTF(import.meta.env.BASE_URL + 'OSM.glb');
+
+  React.useEffect(() => {
+    scene.traverse((child: any) => {
+      if (child.isMesh) {
+        child.material = new THREE.MeshStandardMaterial({
+          color: '#ffffff',
+          roughness: 0.5,
+          metalness: 0.1,
+        });
+        child.castShadow = false;
+        child.receiveShadow = false;
+      }
+    });
+  }, [scene]);
+
   return <primitive object={scene} scale={[0.05, 0.05, 0.05]} />;
 };
 
 const GBAModel = () => {
-  const { scene } = useGLTF(import.meta.env.BASE_URL + 'GBA.glb');
+  const { scene } = useGLTF(import.meta.env.BASE_URL + 'OSM.glb');
+
+  React.useEffect(() => {
+    scene.traverse((child: any) => {
+      if (child.isMesh) {
+        child.material = new THREE.MeshStandardMaterial({
+          color: '#ffffff',
+          roughness: 0.5,
+          metalness: 0.1,
+        });
+        child.castShadow = false;
+        child.receiveShadow = false;
+      }
+    });
+  }, [scene]);
+
   return <primitive object={scene} scale={[0.05, 0.05, 0.05]} />;
 };
 
@@ -69,6 +98,9 @@ const City = ({ mode }: { mode: 'osm' | 'atlas' | 'terrain' }) => {
     return (
       <group>
         {mode === 'osm' ? <OSMModel /> : <GBAModel />}
+
+
+
         <Grid
           infiniteGrid
           fadeDistance={50}
@@ -108,8 +140,8 @@ export const InteractiveDemo: React.FC = () => {
   const [mode, setMode] = useState<'osm' | 'atlas' | 'terrain'>('osm');
 
   return (
-    <div className="w-full h-[650px] bg-neutral-50 rounded-3xl overflow-hidden relative border border-neutral-100 shadow-xl shadow-neutral-200/50">
-      <div className="absolute top-6 left-6 z-10 flex flex-col space-y-4">
+    <div className="w-full h-[650px] relative">
+      <div className="absolute bottom-6 left-6 z-10 flex flex-col space-y-4">
         <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-neutral-200 shadow-sm max-w-[280px]">
           <h3 className="font-bold text-neutral-900 mb-1">Architectural Context</h3>
           <p className="text-xs text-neutral-500 leading-relaxed">High-fidelity geometry generated directly from cloud spatial databases.</p>
@@ -137,24 +169,27 @@ export const InteractiveDemo: React.FC = () => {
         </div>
       </div>
 
-      <Canvas shadows gl={{ antialias: true }}>
+      <Canvas dpr={[1, 2]} frameloop="demand" gl={{ antialias: false, powerPreference: "high-performance", alpha: true }}>
         <PerspectiveCamera makeDefault position={[20, 20, 20]} fov={35} />
         <OrbitControls enableDamping dampingFactor={0.05} minDistance={10} maxDistance={60} />
 
-        <ambientLight intensity={0.8} />
+        <ambientLight intensity={1.2} />
         <directionalLight
           position={[10, 40, 10]}
-          intensity={1.2}
-          castShadow
-          shadow-mapSize={[1024, 1024]}
+          intensity={2.5}
         />
         <pointLight position={[-10, 20, -10]} intensity={0.5} />
 
-        <City mode={mode} />
-
-        <fog attach="fog" args={['#fafafa', 30, 80]} />
-        <color attach="background" args={['#fafafa']} />
+        <Suspense fallback={null}>
+          <group>
+            {mode === 'osm' ? <OSMModel /> : <GBAModel />}
+          </group>
+        </Suspense>
       </Canvas>
+
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+      </div>
     </div>
   );
 };
+

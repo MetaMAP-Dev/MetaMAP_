@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { InteractiveDemo } from '../components/InteractiveDemo';
-import { Workflow } from '../components/Workflow';
+
 import { Rocket, Globe, ArrowRight, Github, BarChart3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -49,7 +49,26 @@ export const LandingPage: React.FC = () => {
 
 
 
-      <Workflow />
+      {/* How it Works Video Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-neutral-900 mb-4 tracking-tight">See how it works</h2>
+            <p className="text-neutral-500 text-lg">From zero to context in seconds.</p>
+          </div>
+
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-neutral-100 bg-neutral-900 aspect-video">
+            <video
+              className="w-full h-full object-cover"
+              controls
+              preload="metadata"
+              src={import.meta.env.BASE_URL + "HowTo.mp4#t=0.37"}
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </section>
 
       {/* Use Cases */}
       <section className="py-32 bg-neutral-50/50">

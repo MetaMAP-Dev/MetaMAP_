@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 gap-16 mb-20">
           <div className="col-span-2">
             <div className="flex items-center space-x-3 mb-8">
-              <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center font-bold text-white text-2xl">M</div>
+              <img src={import.meta.env.BASE_URL + "metamap.png"} alt="MetaMAP Logo" className="w-10 h-10 rounded-xl" />
               <span className="text-2xl font-black tracking-tight text-neutral-900">MetaMAP</span>
             </div>
             <p className="text-neutral-500 max-w-sm mb-10 leading-relaxed font-medium">
